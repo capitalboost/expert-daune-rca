@@ -46,3 +46,9 @@
  .mobile-contact-bar a:focus-visible{outline:3px solid white;outline-offset:-5px}
  body.has-floater{padding-bottom:calc(52px + env(safe-area-inset-bottom))}
 }
+
+@media(max-width:760px){
+ .floating-contact.mobile-contact-bar{background:linear-gradient(105deg,#3158d5 0%,#3158d5 30%,#246ba7 53%,#087f73 76%,#087f73 100%);box-shadow:0 -3px 14px #152d6840}
+ .mobile-contact-bar .mobile-call,.mobile-contact-bar .mobile-whatsapp{background:transparent;border:0}
+ .mobile-contact-bar a:hover,.mobile-contact-bar a:active{background:#ffffff12}
+}
