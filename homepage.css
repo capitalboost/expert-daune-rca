@@ -34,3 +34,5 @@
 .hero h1 .hero-rotator{grid-template-columns:minmax(0,1fr)}.hero h1 .hero-phrase{min-width:0}
 
 @media(max-width:760px){.insurers{padding:4px 0}.insurers .insurer-link{height:50px;padding:4px 17px}}
+
+@media(max-width:760px){.hero .hero-benefits,.hero .hero-actions{display:none}.hero{min-height:620px}.hero-content{padding-bottom:240px}}

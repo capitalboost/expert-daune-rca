@@ -52,3 +52,10 @@
  .mobile-contact-bar .mobile-call,.mobile-contact-bar .mobile-whatsapp{background:transparent;border:0}
  .mobile-contact-bar a:hover,.mobile-contact-bar a:active{background:#ffffff12}
 }
+
+.contact-bubble{position:absolute;right:12px;bottom:calc(100% + 10px);max-width:calc(100vw - 24px);padding:10px 14px;border:1px solid #dbe0eb;border-radius:12px;background:#fff;color:#101a31;font-size:12px;font-weight:400;line-height:1.5;box-shadow:0 4px 20px #03154e22;animation:contact-bubble-in .25s ease-out}
+.contact-bubble:after{content:'';position:absolute;right:38px;bottom:-6px;width:10px;height:10px;background:#fff;border-right:1px solid #dbe0eb;border-bottom:1px solid #dbe0eb;transform:rotate(45deg)}
+@keyframes contact-bubble-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.contact-bubble{animation:none}}
+
+@media(max-width:760px){.cookie-actions [data-notice="accept"]{order:-1;flex-basis:100%}.cookie-actions .support-button{min-width:0}.cookie-actions [data-notice="reject"],.cookie-actions [data-notice="customize"],.cookie-actions [data-notice="save"]{flex:1 1 0}}
