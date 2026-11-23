@@ -1,0 +1,4 @@
+(()=>{const video=document.querySelector('#services-hero-video');if(!video)return;const reduced=matchMedia('(prefers-reduced-motion: reduce)');let inView=true,wantsPlay=!reduced.matches&&!navigator.connection?.saveData;
+function label(){}
+function sync(){if(!wantsPlay||!inView||document.hidden){video.pause();return}if(!video.getAttribute('src'))video.src=matchMedia('(max-width:760px)').matches?video.dataset.mobile:video.dataset.desktop;video.muted=true;video.play().catch(()=>{label()})}
+video.addEventListener('play',label);video.addEventListener('pause',label);document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',()=>{wantsPlay=!reduced.matches&&!navigator.connection?.saveData;sync()});if('IntersectionObserver'in window)new IntersectionObserver(es=>{inView=es[0].isIntersecting;sync()},{threshold:0.05}).observe(video);else sync();label();})();

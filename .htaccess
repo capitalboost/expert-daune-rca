@@ -1,0 +1,101 @@
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+RewriteEngine On
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^index\.html$ / [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/index\.html$ /servicii/ [R=301,L,NE]
+RewriteRule ^servicii$ /servicii/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/consultanta\-daune\-rca/index\.html$ /servicii/consultanta-daune-rca/ [R=301,L,NE]
+RewriteRule ^servicii/consultanta\-daune\-rca$ /servicii/consultanta-daune-rca/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/masina\-la\-schimb/index\.html$ /servicii/masina-la-schimb/ [R=301,L,NE]
+RewriteRule ^servicii/masina\-la\-schimb$ /servicii/masina-la-schimb/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/tractare\-gratuita/index\.html$ /servicii/tractare-gratuita/ [R=301,L,NE]
+RewriteRule ^servicii/tractare\-gratuita$ /servicii/tractare-gratuita/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/monitorizarea\-reparatiilor/index\.html$ /servicii/monitorizarea-reparatiilor/ [R=301,L,NE]
+RewriteRule ^servicii/monitorizarea\-reparatiilor$ /servicii/monitorizarea-reparatiilor/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^servicii/dosar\-casco/index\.html$ /servicii/dosar-casco/ [R=301,L,NE]
+RewriteRule ^servicii/dosar\-casco$ /servicii/dosar-casco/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/index\.html$ /asiguratori/ [R=301,L,NE]
+RewriteRule ^asiguratori$ /asiguratori/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/allianz\-tiriac/index\.html$ /asiguratori/allianz-tiriac/ [R=301,L,NE]
+RewriteRule ^asiguratori/allianz\-tiriac$ /asiguratori/allianz-tiriac/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/asirom/index\.html$ /asiguratori/asirom/ [R=301,L,NE]
+RewriteRule ^asiguratori/asirom$ /asiguratori/asirom/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/axeria\-iard/index\.html$ /asiguratori/axeria-iard/ [R=301,L,NE]
+RewriteRule ^asiguratori/axeria\-iard$ /asiguratori/axeria-iard/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/carom\-sa/index\.html$ /asiguratori/carom-sa/ [R=301,L,NE]
+RewriteRule ^asiguratori/carom\-sa$ /asiguratori/carom-sa/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/eazy\-asigurari/index\.html$ /asiguratori/eazy-asigurari/ [R=301,L,NE]
+RewriteRule ^asiguratori/eazy\-asigurari$ /asiguratori/eazy-asigurari/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/euro\-insurance\-dac/index\.html$ /asiguratori/euro-insurance-dac/ [R=301,L,NE]
+RewriteRule ^asiguratori/euro\-insurance\-dac$ /asiguratori/euro-insurance-dac/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/euroins/index\.html$ /asiguratori/euroins/ [R=301,L,NE]
+RewriteRule ^asiguratori/euroins$ /asiguratori/euroins/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/generali/index\.html$ /asiguratori/generali/ [R=301,L,NE]
+RewriteRule ^asiguratori/generali$ /asiguratori/generali/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/grawe/index\.html$ /asiguratori/grawe/ [R=301,L,NE]
+RewriteRule ^asiguratori/grawe$ /asiguratori/grawe/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/groupama/index\.html$ /asiguratori/groupama/ [R=301,L,NE]
+RewriteRule ^asiguratori/groupama$ /asiguratori/groupama/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/hellas\-direct/index\.html$ /asiguratori/hellas-direct/ [R=301,L,NE]
+RewriteRule ^asiguratori/hellas\-direct$ /asiguratori/hellas-direct/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/omniasig/index\.html$ /asiguratori/omniasig/ [R=301,L,NE]
+RewriteRule ^asiguratori/omniasig$ /asiguratori/omniasig/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/rca\-bulgaria/index\.html$ /asiguratori/rca-bulgaria/ [R=301,L,NE]
+RewriteRule ^asiguratori/rca\-bulgaria$ /asiguratori/rca-bulgaria/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/uniqa/index\.html$ /asiguratori/uniqa/ [R=301,L,NE]
+RewriteRule ^asiguratori/uniqa$ /asiguratori/uniqa/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^despre\-noi/index\.html$ /despre-noi/ [R=301,L,NE]
+RewriteRule ^despre\-noi$ /despre-noi/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^contact/index\.html$ /contact/ [R=301,L,NE]
+RewriteRule ^contact$ /contact/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^resurse/constatare\-amiabila/index\.html$ /resurse/constatare-amiabila/ [R=301,L,NE]
+RewriteRule ^resurse/constatare\-amiabila$ /resurse/constatare-amiabila/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^termeni\-si\-conditii/index\.html$ /termeni-si-conditii/ [R=301,L,NE]
+RewriteRule ^termeni\-si\-conditii$ /termeni-si-conditii/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^politica\-cookies/index\.html$ /politica-cookies/ [R=301,L,NE]
+RewriteRule ^politica\-cookies$ /politica-cookies/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^confidentialitate/index\.html$ /confidentialitate/ [R=301,L,NE]
+RewriteRule ^confidentialitate$ /confidentialitate/ [R=301,L,NE]
+RewriteCond %{THE_REQUEST} "\s/[^?\ ]*index\.html(?:[?\ ]|$)"
+RewriteRule ^asiguratori/anytime/index\.html$ /asiguratori/anytime/ [R=301,L,NE]
+RewriteRule ^asiguratori/anytime$ /asiguratori/anytime/ [R=301,L,NE]
+RewriteRule ^termeni\-si\-conditii\.html$ /termeni-si-conditii/ [R=301,L,NE]
+RewriteRule ^politica\-cookies\.html$ /politica-cookies/ [R=301,L,NE]
+RewriteRule ^confidentialitate\.html$ /confidentialitate/ [R=301,L,NE]
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_headers.c>
+<FilesMatch "\.(css|js|webp|woff2|svg)$">
+Header set Cache-Control "public, max-age=3600, must-revalidate"
+</FilesMatch>
+</IfModule>
