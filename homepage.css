@@ -32,3 +32,5 @@
 @media(max-width:760px){.hero h1 .hero-rotator{width:100%;font-size:clamp(25px,5.4vw,38px);margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.hero h1 .hero-phrase{transition:none;transform:none}}
 .hero h1 .hero-rotator{grid-template-columns:minmax(0,1fr)}.hero h1 .hero-phrase{min-width:0}
+
+@media(max-width:760px){.insurers{padding:4px 0}.insurers .insurer-link{height:50px;padding:4px 17px}}
