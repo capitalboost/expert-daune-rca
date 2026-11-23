@@ -13,7 +13,7 @@ Site static: varianta Prototype aprobata, cu pagini de servicii, asiguratori, co
 
 Variabile de build:
 
-- `SITE_ORIGIN`: domeniul public, fara slash final. Implicit: `https://expert-daune-rca.capitalboost.ro`.
+- `SITE_ORIGIN`: domeniul public, fara slash final. Implicit: `https://expertdaunerca.ro`.
 - `INDEX_SITE`: implicit dezactivat. Seteaza `true` numai la lansarea versiunii care trebuie indexata.
 
 Buildul actualizeaza canonical, metadatele sociale si sitemap pentru domeniul ales. Variantele de test raman noindex.

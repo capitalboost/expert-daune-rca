@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
-const origin = (process.env.SITE_ORIGIN || 'https://expert-daune-rca.capitalboost.ro').replace(/\/$/, '');
+const origin = (process.env.SITE_ORIGIN || 'https://expertdaunerca.ro').replace(/\/$/, '');
 if (!/^https:\/\/[^/\s]+$/.test(origin)) throw new Error('SITE_ORIGIN must be an HTTPS origin without a path.');
 const indexable = process.env.INDEX_SITE === 'true';
 const directories = ['assets','asiguratori','confidentialitate','contact','despre-noi','politica-cookies','resurse','servicii','termeni-si-conditii'];
