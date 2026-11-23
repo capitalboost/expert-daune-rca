@@ -26,9 +26,9 @@ node scripts/build-cloudflare.cjs
 
 Folderul `dist` poate fi incarcat manual in Cloudflare sau generat automat de Cloudflare dupa conectarea acestui repository.
 
-## Formular
+## Contact
 
-`api/` contine varianta PHP pentru hosting compatibil. Nu este inclusa in buildul Cloudflare, care nu executa PHP. Pana la configurarea serviciului de contact, formularul ramane dezactivat; telefonul si WhatsApp sunt disponibile.
+Contactarea se face prin telefon sau WhatsApp. Site-ul nu include formular de contact sau backend pentru trimiterea solicitarilor.
 
 ## Continut
 
