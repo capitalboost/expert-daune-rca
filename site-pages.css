@@ -122,3 +122,19 @@ footer .footer-credit{grid-column:1/-1;grid-row:3;margin-top:10px;padding-top:9p
  footer .footer-pages a,footer .legal-links a,footer .legal-links button{min-height:28px;line-height:1.4;text-align:left}
  footer .footer-credit{grid-row:4;grid-column:1/-1;margin-top:0;padding-top:8px;font-size:9px;gap:4px 12px}
 }
+
+/* Mobile footer: consistent vertical lists instead of uneven wrapped rows. */
+@media(max-width:760px){
+ footer{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 24px;padding:20px 6% 14px}
+ footer>a{grid-column:1;grid-row:1}
+ footer .social-links{grid-column:2;grid-row:1;gap:8px}
+ footer .social-links a{width:36px;height:36px;min-height:36px;border:0;background:#ffffff0c;border-radius:8px}
+ footer .social-links svg{width:18px;height:18px}
+ footer .footer-pages,footer .legal-links{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;grid-row:2;font-size:12px;line-height:1.5}
+ footer .footer-pages{grid-column:1}
+ footer .legal-links{grid-column:2}
+ footer .footer-pages a,footer .legal-links a,footer .legal-links button{min-height:30px;padding:5px 0;line-height:20px;white-space:normal}
+ footer .footer-credit{grid-column:1/-1;grid-row:3;display:flex;justify-content:space-between;gap:6px 12px;margin:0;padding-top:10px;font-size:9px;line-height:1.5}
+}
+
+@media(max-width:760px){footer .footer-pages,footer .legal-links{align-self:start}}
