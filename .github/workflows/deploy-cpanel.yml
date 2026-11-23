@@ -1,0 +1,41 @@
+name: Deploy cPanel
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cpanel-production
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: vars.CPANEL_AUTO_DEPLOY == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Update repository and request cPanel deployment
+        env:
+          SSH_KEY: ${{ secrets.CPANEL_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CPANEL_KNOWN_HOSTS }}
+          SSH_PORT: ${{ secrets.CPANEL_SSH_PORT }}
+        run: |
+          set -euo pipefail
+          test -n "$SSH_KEY"
+          test -n "$KNOWN_HOSTS"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/cpanel_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/cpanel_key ~/.ssh/known_hosts
+          trap 'rm -f ~/.ssh/cpanel_key' EXIT
+          ssh -i ~/.ssh/cpanel_key -p "${SSH_PORT:-22}" -o BatchMode=yes -o StrictHostKeyChecking=yes expertdaunerca@185.246.122.88 'bash -se' <<'REMOTE'
+          set -euo pipefail
+          cd /home2/expertdaunerca/repositories/expert-daune-rca
+          test "$(git branch --show-current)" = main
+          test -z "$(git status --porcelain)"
+          git pull --ff-only origin main
+          /usr/local/cpanel/bin/uapi --output=json VersionControlDeployment create repository_root=/home2/expertdaunerca/repositories/expert-daune-rca > /tmp/expertdaunerca-deploy-result.json
+          cat /tmp/expertdaunerca-deploy-result.json
+          grep -Eq '"status"[[:space:]]*:[[:space:]]*1' /tmp/expertdaunerca-deploy-result.json
+          REMOTE

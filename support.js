@@ -45,20 +45,54 @@
  addEventListener('resize', scheduleFloatingContact);
  updateFloatingContact();
  document.querySelectorAll('[data-current-year]').forEach(el=>el.textContent=new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Europe/Bucharest'}).format(new Date()));
- const key='edrca_privacy_v2',lifetime=180*86400000;
- const read=()=>{try{const s=JSON.parse(localStorage.getItem(key));return s?.version===2&&typeof s.maps==='boolean'&&s.until>Date.now()&&s.until<=Date.now()+lifetime?s:null}catch{return null}};
+ const measurementId = 'G-LN173SN47N';
+ window.dataLayer = window.dataLayer || [];
+ window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+ window.gtag('consent', 'default', {ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+ let analyticsAllowed = false, analyticsLoaded = false;
+ function applyAnalytics(allowed) {
+  if (allowed === analyticsAllowed) return;
+  analyticsAllowed = allowed;
+  window['ga-disable-' + measurementId] = !allowed;
+  window.gtag('consent', 'update', {analytics_storage:allowed?'granted':'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+  if (allowed && !analyticsLoaded) {
+   analyticsLoaded = true;
+   window.gtag('js', new Date());
+   window.gtag('config', measurementId, {allow_google_signals:false,allow_ad_personalization_signals:false});
+   const tag = document.createElement('script'); tag.async = true;
+   tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+   document.head.append(tag);
+  }
+  if (!allowed) {
+   for (const part of document.cookie.split(';')) {
+    const name = part.trim().split('=')[0];
+    if (!/^_ga(?:_|$)/.test(name)) continue;
+    const domains = location.hostname.split('.');
+    document.cookie = name + '=; Max-Age=0; path=/';
+    for (let i=0;i<domains.length-1;i++) document.cookie = name + '=; Max-Age=0; path=/; domain=' + domains.slice(i).join('.');
+   }
+  }
+ }
+ document.addEventListener('click', event => {
+  if (!analyticsAllowed) return;
+  const link = event.target.closest?.('a'); if (!link) return;
+  if (link.protocol === 'tel:') window.gtag('event','click_telefon',{numar:link.getAttribute('href').slice(4)});
+  else if (['wa.me','api.whatsapp.com','web.whatsapp.com'].includes(link.hostname)) window.gtag('event','click_whatsapp');
+ });
+ const key='edrca_privacy_v3',lifetime=180*86400000;
+ const read=()=>{try{const s=JSON.parse(localStorage.getItem(key));return s?.version===3&&typeof s.maps==='boolean'&&typeof s.analytics==='boolean'&&s.until>Date.now()&&s.until<=Date.now()+lifetime?s:null}catch{return null}};
  try{localStorage.removeItem('edrca_cookie_notice_v1')}catch{}
  let choice=read(),opener=null;
  const panel=document.createElement('section');panel.className='cookie-banner';panel.hidden=true;panel.setAttribute('aria-labelledby','cookie-title');
- panel.innerHTML='<h2 id="cookie-title">Cookies și confidențialitate</h2><p>Folosim Google Maps ca să ne găsești mai ușor. Permiți încărcarea hărții și tehnologiilor Google? Restul site-ului funcționează și fără ele.</p><p><a href="/politica-cookies/">Citește politica de cookies</a></p><div class="cookie-actions"><button class="support-button secondary" type="button" data-notice="reject">Nu</button><button class="support-button" type="button" data-notice="accept">Da, am înțeles</button></div><p class="cookie-status" role="status"></p>';
+ panel.innerHTML='<h2 id="cookie-title">Cookies și confidențialitate</h2><p>Folosim cookie-uri pentru a înțelege cum este folosit site-ul și Google Maps ca să ne găsești mai ușor. Tu alegi ce permiți.</p><p><a href="/politica-cookies/">Citește politica de cookies</a></p><p><label><input type="checkbox" data-consent-analytics> Analiza traficului (Google Analytics)</label><br><label><input type="checkbox" data-consent-maps> Harta Google Maps</label></p><div class="cookie-actions"><button class="support-button secondary" type="button" data-notice="reject">Nu</button><button class="support-button" type="button" data-notice="save">Salvează alegerea</button><button class="support-button" type="button" data-notice="accept">Acceptă toate</button></div><p class="cookie-status" role="status"></p>';
  document.body.append(panel);
- const apply=()=>document.querySelectorAll('[data-map-src]').forEach(frame=>{const enabled=choice?.maps===true;frame.hidden=!enabled;frame.parentElement.querySelector('.map-placeholder').hidden=enabled;if(enabled){if(!frame.hasAttribute('src'))frame.src=frame.dataset.mapSrc}else frame.removeAttribute('src')});
- const show=(focus=false)=>{panel.hidden=false;document.body.classList.add('cookie-notice-open');panel.querySelector('.cookie-status').textContent=choice?'Harta Google este '+(choice.maps?'permisă. Poți schimba alegerea oricând.':'dezactivată. Poți schimba alegerea oricând.') : '';if(focus)panel.querySelector('button').focus()};
+ const apply=()=>{applyAnalytics(choice?.analytics===true);document.querySelectorAll('[data-map-src]').forEach(frame=>{const enabled=choice?.maps===true;frame.hidden=!enabled;frame.parentElement.querySelector('.map-placeholder').hidden=enabled;if(enabled){if(!frame.hasAttribute('src'))frame.src=frame.dataset.mapSrc}else frame.removeAttribute('src')});};
+ const show=(focus=false)=>{panel.hidden=false;document.body.classList.add('cookie-notice-open');panel.querySelector('[data-consent-analytics]').checked=choice?.analytics===true;panel.querySelector('[data-consent-maps]').checked=choice?.maps===true;panel.querySelector('.cookie-status').textContent='';if(focus)panel.querySelector('button').focus()};
  const hide=()=>{panel.hidden=true;document.body.classList.remove('cookie-notice-open');if(opener?.isConnected)opener.focus();opener=null};
- const choose=maps=>{choice={version:2,maps,until:Date.now()+lifetime};try{localStorage.setItem(key,JSON.stringify(choice))}catch{}apply();hide()};
- panel.addEventListener('click',e=>{const a=e.target.closest('[data-notice]')?.dataset.notice;if(a)choose(a==='accept')});
+ const choose=(maps,analytics)=>{choice={version:3,maps,analytics,until:Date.now()+lifetime};try{localStorage.setItem(key,JSON.stringify(choice))}catch{}apply();hide()};
+ panel.addEventListener('click',e=>{const a=e.target.closest('[data-notice]')?.dataset.notice;if(a==='save')choose(panel.querySelector('[data-consent-maps]').checked,panel.querySelector('[data-consent-analytics]').checked);else if(a)choose(a==='accept',a==='accept')});
  document.querySelectorAll('[data-cookie-settings]').forEach(button=>button.addEventListener('click',()=>{opener=button;show(true)}));
- document.querySelectorAll('[data-enable-map]').forEach(button=>button.addEventListener('click',()=>{choose(true);button.closest('.map-stage').querySelector('iframe').focus()}));
+ document.querySelectorAll('[data-enable-map]').forEach(button=>button.addEventListener('click',()=>{choose(true,choice?.analytics===true);button.closest('.map-stage').querySelector('iframe').focus()}));
  window.addEventListener('storage',e=>{if(e.key===key||e.key===null){choice=read();apply();if(!choice)show();else hide()}});
  window.addEventListener('focus',()=>{if(choice&&choice.until<=Date.now()){choice=null;apply();show()}});
  apply();if(!choice)show();

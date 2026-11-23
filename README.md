@@ -48,3 +48,23 @@ Paginile HTML sunt sursa activa. Arhivele, documentele clientului, capturile, lo
 Imaginea sociala curenta: `assets/share-accident-expert-daune-rca.png`.
 
 Nu sunt necesare pachete npm pentru build.
+
+## Deploy automat din GitHub
+
+Workflow: `.github/workflows/deploy-cpanel.yml`, la push pe main sau manual.
+Necesita SSH activ pentru contul cPanel. In GitHub Actions secrets se configureaza:
+- CPANEL_SSH_KEY: cheia privata dedicata, cu cheia publica autorizata in cPanel.
+- CPANEL_KNOWN_HOSTS: cheia hostului verificata cu furnizorul hostingului.
+- CPANEL_SSH_PORT: optional, implicit 22.
+
+Dupa verificarea conexiunii, seteaza variabila repository CPANEL_AUTO_DEPLOY=true.
+Workflow-ul face git pull --ff-only si cere publicarea prin API-ul local cPanel.
+Succesul workflow-ului confirma acceptarea cererii; finalizarea se verifica in cPanel.
+Nu suprascrie modificari necomise din repository-ul serverului.
+
+## Google Analytics
+
+ID: G-LN173SN47N. Integrat in support.js, incarcat numai dupa acordul pentru analiza.
+Preferintele v3 separa analiza de Maps; acordurile vechi pentru harta nu activeaza GA4.
+Evenimente: click_telefon (numarul firmei accesat), click_whatsapp.
+Functiile de publicitate raman refuzate. Verificarea in GA4 Realtime se face dupa deploy.
