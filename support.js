@@ -2,21 +2,8 @@
  'use strict';
  const inlineContacts = [...document.querySelectorAll('main a[href^="https://wa.me/"]')];
  const contactHeader = document.querySelector('.header');
- document.body.insertAdjacentHTML('beforeend', `<a class="floating-contact" href="https://wa.me/40728608688" target="_blank" rel="noopener noreferrer" aria-label="Scrie-ne pe WhatsApp" hidden><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.47 0 .12 5.35.12 11.93c0 2.1.55 4.15 1.6 5.95L0 24l6.26-1.64a11.9 11.9 0 0 0 5.78 1.47h.01c6.57 0 11.92-5.35 11.92-11.93 0-3.18-1.24-6.18-3.45-8.42ZM12.05 21.8a9.88 9.88 0 0 1-5.04-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.87 9.87 0 0 1-1.52-5.26c0-5.46 4.43-9.9 9.89-9.9a9.82 9.82 0 0 1 7 2.9 9.84 9.84 0 0 1 2.89 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.71.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg><span class="floating-contact-message" aria-hidden="true" hidden></span></a>`);
- const floatingContact = document.querySelector('.floating-contact');
- const contactMessage = floatingContact.querySelector('.floating-contact-message');
- const contactQuestions = ['Ai nevoie de ajutor?', 'Ai avut un accident?', 'Ai întrebări despre dosar?'];
- let contactQuestionIndex = 0;
- let contactMessageTimer;
- function showContactMessage() {
-  contactMessage.textContent = contactQuestions[contactQuestionIndex];
-  contactQuestionIndex = (contactQuestionIndex + 1) % contactQuestions.length;
-  contactMessage.hidden = false;
-  contactMessageTimer = setTimeout(() => {
-   contactMessage.hidden = true;
-   contactMessageTimer = setTimeout(showContactMessage, 18000);
-  }, 5000);
- }
+ document.body.insertAdjacentHTML('beforeend', `<nav class="floating-contact mobile-contact-bar" aria-label="Contact rapid" hidden><a href="tel:+40728608688" class="mobile-call"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M6 3h4l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v4a3 3 0 0 1-3 3C9 20 4 15 3 6a3 3 0 0 1 3-3Z"/></svg><span>Sună-ne</span></a><a href="https://wa.me/40728608688" class="mobile-whatsapp" target="_blank" rel="noopener noreferrer"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.47 0 .12 5.35.12 11.93c0 2.1.55 4.15 1.6 5.95L0 24l6.26-1.64a11.9 11.9 0 0 0 5.78 1.47h.01c6.57 0 11.92-5.35 11.92-11.93 0-3.18-1.24-6.18-3.45-8.42ZM12.05 21.8a9.88 9.88 0 0 1-5.04-1.38l-.36-.21-3.71.97.99-3.62-.24-.37a9.87 9.87 0 0 1-1.52-5.26c0-5.46 4.43-9.9 9.89-9.9a9.82 9.82 0 0 1 7 2.9 9.84 9.84 0 0 1 2.89 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.71.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg><span>Hai pe WhatsApp</span></a></nav>`);
+ const floatingContact = document.querySelector('.mobile-contact-bar');
  const mobileViewport = matchMedia('(max-width: 760px)');
  let contactFrame = 0;
  function updateFloatingContact() {
@@ -30,9 +17,6 @@
   const showContact = mobileViewport.matches && !inlineContactVisible && !editing;
   if (floatingContact.hidden === showContact) {
    floatingContact.hidden = !showContact;
-   clearTimeout(contactMessageTimer);
-   contactMessage.hidden = true;
-   if (showContact) contactMessageTimer = setTimeout(showContactMessage, 1800);
   }
   document.body.classList.toggle('has-floater', showContact);
  }
