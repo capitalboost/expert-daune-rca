@@ -82,26 +82,58 @@
    }
   }
  }
+ // Meta Pixel: loaded only after separate marketing consent; no noscript fallback, which would bypass consent.
+ const pixelId = '2046707842712514';
+ let marketingAllowed = false, pixelLoaded = false;
+ function applyMarketing(allowed) {
+  if (allowed === marketingAllowed) return;
+  marketingAllowed = allowed;
+  if (allowed && !pixelLoaded) {
+   pixelLoaded = true;
+   const n = window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+   if (!window._fbq) window._fbq = n;
+   n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+   const tag = document.createElement('script'); tag.async = true;
+   tag.src = 'https://connect.facebook.net/en_US/fbevents.js';
+   document.head.append(tag);
+   window.fbq('init', pixelId);
+   window.fbq('track', 'PageView');
+  }
+  if (!allowed && pixelLoaded) {
+   window.fbq('consent', 'revoke');
+   for (const name of ['_fbp', '_fbc']) {
+    const domains = location.hostname.split('.');
+    document.cookie = name + '=; Max-Age=0; path=/';
+    for (let i=0;i<domains.length-1;i++) document.cookie = name + '=; Max-Age=0; path=/; domain=' + domains.slice(i).join('.');
+   }
+   setTimeout(() => location.reload(), 0);
+  }
+ }
  document.addEventListener('click', event => {
-  if (!analyticsAllowed) return;
+  if (!analyticsAllowed && !marketingAllowed) return;
   const link = event.target.closest?.('a'); if (!link) return;
-  if (link.protocol === 'tel:') window.gtag('event','click_telefon',{numar:link.getAttribute('href').slice(4)});
-  else if (['wa.me','api.whatsapp.com','web.whatsapp.com'].includes(link.hostname)) window.gtag('event','click_whatsapp');
+  const channel = link.protocol === 'tel:' ? 'telefon' : ['wa.me','api.whatsapp.com','web.whatsapp.com'].includes(link.hostname) ? 'whatsapp' : '';
+  if (!channel) return;
+  if (analyticsAllowed) {
+   if (channel === 'telefon') window.gtag('event','click_telefon',{numar:link.getAttribute('href').slice(4)});
+   else window.gtag('event','click_whatsapp');
+  }
+  if (marketingAllowed) window.fbq('track', 'Contact', {content_name: channel});
  });
- const key='edrca_privacy_v4',lifetime=180*86400000;
- const read=()=>{try{const s=JSON.parse(localStorage.getItem(key));return s?.version===4&&typeof s.maps==='boolean'&&typeof s.analytics==='boolean'&&s.until>Date.now()&&s.until<=Date.now()+lifetime?s:null}catch{return null}};
- try{localStorage.removeItem('edrca_cookie_notice_v1')}catch{}
+ const key='edrca_privacy_v5',lifetime=180*86400000;
+ const read=()=>{try{const s=JSON.parse(localStorage.getItem(key));return s?.version===5&&typeof s.maps==='boolean'&&typeof s.analytics==='boolean'&&typeof s.marketing==='boolean'&&s.until>Date.now()&&s.until<=Date.now()+lifetime?s:null}catch{return null}};
+ try{localStorage.removeItem('edrca_cookie_notice_v1');localStorage.removeItem('edrca_privacy_v4')}catch{}
  let choice=read(),opener=null;
  const panel=document.createElement('section');panel.className='cookie-banner';panel.hidden=true;panel.setAttribute('aria-labelledby','cookie-title');
- panel.innerHTML='<h2 id="cookie-title">Cookies și confidențialitate</h2><p>Folosim cookie-uri pentru a înțelege cum este folosit site-ul și Google Maps ca să ne găsești mai ușor. Tu alegi ce permiți.</p><p><a href="/politica-cookies/">Citește politica de cookies</a></p><div id="cookie-options" data-consent-options hidden><p><label><input type="checkbox" data-consent-analytics> Analiza traficului (Google Analytics și Microsoft Clarity)</label><br><label><input type="checkbox" data-consent-maps> Harta Google Maps</label></p></div><div class="cookie-actions"><button class="support-button secondary" type="button" data-notice="reject">Refuză</button><button class="support-button secondary" type="button" data-notice="customize" aria-expanded="false" aria-controls="cookie-options">Personalizează</button><button class="support-button" type="button" data-notice="save" hidden>Salvează alegerea</button><button class="support-button" type="button" data-notice="accept">Acceptă toate</button></div><p class="cookie-status" role="status"></p>';
+ panel.innerHTML='<h2 id="cookie-title">Cookies și confidențialitate</h2><p>Folosim cookie-uri pentru a înțelege cum este folosit site-ul, pentru a măsura reclamele noastre pe Facebook și Instagram și Google Maps ca să ne găsești mai ușor. Tu alegi ce permiți.</p><p><a href="/politica-cookies/">Citește politica de cookies</a></p><div id="cookie-options" data-consent-options hidden><p><label><input type="checkbox" data-consent-analytics> Analiza traficului (Google Analytics și Microsoft Clarity)</label><br><label><input type="checkbox" data-consent-marketing> Marketing (Meta Pixel pentru Facebook și Instagram)</label><br><label><input type="checkbox" data-consent-maps> Harta Google Maps</label></p></div><div class="cookie-actions"><button class="support-button secondary" type="button" data-notice="reject">Refuză</button><button class="support-button secondary" type="button" data-notice="customize" aria-expanded="false" aria-controls="cookie-options">Personalizează</button><button class="support-button" type="button" data-notice="save" hidden>Salvează alegerea</button><button class="support-button" type="button" data-notice="accept">Acceptă toate</button></div><p class="cookie-status" role="status"></p>';
  document.body.append(panel);
- const apply=()=>{applyAnalytics(choice?.analytics===true);document.querySelectorAll('[data-map-src]').forEach(frame=>{const enabled=choice?.maps===true;frame.hidden=!enabled;frame.parentElement.querySelector('.map-placeholder').hidden=enabled;if(enabled){if(!frame.hasAttribute('src'))frame.src=frame.dataset.mapSrc}else frame.removeAttribute('src')});};
- const show=(focus=false)=>{panel.querySelector('[data-consent-options]').hidden=true;panel.querySelector('[data-notice=save]').hidden=true;panel.querySelector('[data-notice=customize]').hidden=false;panel.querySelector('[data-notice=customize]').setAttribute('aria-expanded','false');panel.hidden=false;document.body.classList.add('cookie-notice-open');panel.querySelector('[data-consent-analytics]').checked=choice?.analytics===true;panel.querySelector('[data-consent-maps]').checked=choice?.maps===true;panel.querySelector('.cookie-status').textContent='';if(focus)panel.querySelector('button').focus()};
+ const apply=()=>{applyAnalytics(choice?.analytics===true);applyMarketing(choice?.marketing===true);document.querySelectorAll('[data-map-src]').forEach(frame=>{const enabled=choice?.maps===true;frame.hidden=!enabled;frame.parentElement.querySelector('.map-placeholder').hidden=enabled;if(enabled){if(!frame.hasAttribute('src'))frame.src=frame.dataset.mapSrc}else frame.removeAttribute('src')});};
+ const show=(focus=false)=>{panel.querySelector('[data-consent-options]').hidden=true;panel.querySelector('[data-notice=save]').hidden=true;panel.querySelector('[data-notice=customize]').hidden=false;panel.querySelector('[data-notice=customize]').setAttribute('aria-expanded','false');panel.hidden=false;document.body.classList.add('cookie-notice-open');panel.querySelector('[data-consent-analytics]').checked=choice?.analytics===true;panel.querySelector('[data-consent-maps]').checked=choice?.maps===true;panel.querySelector('[data-consent-marketing]').checked=choice?.marketing===true;panel.querySelector('.cookie-status').textContent='';if(focus)panel.querySelector('button').focus()};
  const hide=()=>{panel.hidden=true;document.body.classList.remove('cookie-notice-open');if(opener?.isConnected)opener.focus();opener=null};
- const choose=(maps,analytics)=>{choice={version:4,maps,analytics,until:Date.now()+lifetime};try{localStorage.setItem(key,JSON.stringify(choice))}catch{}apply();hide()};
- panel.addEventListener('click',e=>{const a=e.target.closest('[data-notice]')?.dataset.notice;if(a==='customize'){panel.querySelector('[data-consent-options]').hidden=false;panel.querySelector('[data-notice=save]').hidden=false;const customize=panel.querySelector('[data-notice=customize]');customize.setAttribute('aria-expanded','true');customize.hidden=true;panel.querySelector('[data-consent-analytics]').focus();return;}if(a==='save')choose(panel.querySelector('[data-consent-maps]').checked,panel.querySelector('[data-consent-analytics]').checked);else if(a)choose(a==='accept',a==='accept')});
+ const choose=(maps,analytics,marketing)=>{choice={version:5,maps,analytics,marketing,until:Date.now()+lifetime};try{localStorage.setItem(key,JSON.stringify(choice))}catch{}apply();hide()};
+ panel.addEventListener('click',e=>{const a=e.target.closest('[data-notice]')?.dataset.notice;if(a==='customize'){panel.querySelector('[data-consent-options]').hidden=false;panel.querySelector('[data-notice=save]').hidden=false;const customize=panel.querySelector('[data-notice=customize]');customize.setAttribute('aria-expanded','true');customize.hidden=true;panel.querySelector('[data-consent-analytics]').focus();return;}if(a==='save')choose(panel.querySelector('[data-consent-maps]').checked,panel.querySelector('[data-consent-analytics]').checked,panel.querySelector('[data-consent-marketing]').checked);else if(a)choose(a==='accept',a==='accept',a==='accept')});
  document.querySelectorAll('[data-cookie-settings]').forEach(button=>button.addEventListener('click',()=>{opener=button;show(true)}));
- document.querySelectorAll('[data-enable-map]').forEach(button=>button.addEventListener('click',()=>{choose(true,choice?.analytics===true);button.closest('.map-stage').querySelector('iframe').focus()}));
+ document.querySelectorAll('[data-enable-map]').forEach(button=>button.addEventListener('click',()=>{choose(true,choice?.analytics===true,choice?.marketing===true);button.closest('.map-stage').querySelector('iframe').focus()}));
  window.addEventListener('storage',e=>{if(e.key===key||e.key===null){choice=read();apply();if(!choice)show();else hide()}});
  window.addEventListener('focus',()=>{if(choice&&choice.until<=Date.now()){choice=null;apply();show()}});
  apply();if(!choice)show();
